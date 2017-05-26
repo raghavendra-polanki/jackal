@@ -5,6 +5,7 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 
 
+import com.example.raghavendra.vidnet.api.APIHandler;
 import com.example.raghavendra.vidnet.utils.Constants;
 import com.squareup.okhttp.OkHttpClient;
 
@@ -69,6 +70,14 @@ public class VidNetApplication extends Application {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(this);
+    }
+
+    public void setForeground(boolean foregound) {
+        isAppInForeground = foregound;
+    }
+
+    public boolean isAppInForeground() {
+        return isAppInForeground;
     }
 
 }

@@ -1,5 +1,7 @@
-package com.example.raghavendra.vidnet;
+package com.example.raghavendra.vidnet.api;
 
+
+import com.example.raghavendra.vidnet.VideoEntry;
 
 import java.util.List;
 

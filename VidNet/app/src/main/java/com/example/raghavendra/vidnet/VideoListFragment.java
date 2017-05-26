@@ -94,13 +94,13 @@ public class VideoListFragment extends ListFragment {
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
 
-        String videoId = m_videoList.get(position).getVideoid();
-
-        this.getFragmentManager().beginTransaction()
-                .replace(R.id.videolist_container, m_videoPlayerFragment, null)
-                .addToBackStack(null)
-                .commit();
-        m_videoPlayerFragment.setVideoId(videoId);
+//        String videoId = m_videoList.get(position).getVideoid();
+//
+//        this.getFragmentManager().beginTransaction()
+//                .replace(R.id.videolist_container, m_videoPlayerFragment, null)
+//                .addToBackStack(null)
+//                .commit();
+//        m_videoPlayerFragment.setVideoId(videoId);
 
 
     }

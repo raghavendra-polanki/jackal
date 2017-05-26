@@ -1,24 +1,20 @@
 package com.example.raghavendra.vidnet;
 
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayerSupportFragment;
+import com.google.android.youtube.player.YouTubePlayerFragment;
 
-import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
-import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 /**
  * Created by raghavendra on 21/05/17.
  */
 
-public class VideoPlayerFragment extends YouTubePlayerSupportFragment
+public class VideoPlayerFragment extends YouTubePlayerFragment
             implements YouTubePlayer.OnInitializedListener{
 
     private YouTubePlayer m_youTubePlayer;
