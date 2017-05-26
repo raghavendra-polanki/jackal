@@ -1,23 +1,50 @@
 package com.example.raghavendra.vidnet;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
+import java.util.List;
+
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * Created by raghavendra on 20/05/17.
  */
 
-public  class VideoEntry {
-    private final String text;
-    private final String videoId;
+public  class VideoEntry implements Serializable {
 
-    public VideoEntry(String text, String videoId) {
-        this.text = text;
-        this.videoId = videoId;
-    }
+    @Getter
+    @Setter
+    @SerializedName("videoid")
+    private String videoid;
 
-    public String getText(){
-        return this.text;
-    }
+    @Getter
+    @Setter
+    @SerializedName("title")
+    private String title;
 
-    public String getVideoId(){
-        return this.videoId;
-    }
+    @Getter @Setter
+    @SerializedName("description")
+    private String description;
+
+    @Getter @Setter
+    @SerializedName("age")
+    private int age;
+
+    @Getter @Setter
+    @SerializedName("language")
+    private String language;
+
+    @Getter @Setter
+    @SerializedName("duration")
+    private int duration;
+
+//    @Getter @Setter
+//    @SerializedName("popularity")
+//    private String popularity;
+
+    @Getter @Setter
+    @SerializedName("category")
+    private List<String> category;
 }

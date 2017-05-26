@@ -1,4 +1,4 @@
-package com.example.raghavendra.vidnet.api;
+package com.example.raghavendra.vidnet;
 
 import com.google.gson.annotations.SerializedName;
 

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">VidNet</string>
+    <string name="no_internet">No Internet.Please Try Again</string>
+    <string name="refresh">Refresh</string>
 </resources>

@@ -40,6 +40,12 @@ public class VideoListAdapter extends BaseAdapter {
 
     }
 
+    public void setVideos(List<VideoEntry> videos){
+        m_videoEntries.clear();
+        m_videoEntries.addAll(videos);
+        notifyDataSetChanged();
+    };
+
     @Override
     public int getCount() {
         return this.m_videoEntries.size();
@@ -64,7 +70,7 @@ public class VideoListAdapter extends BaseAdapter {
         if(view == null){
             view = m_inflator.inflate(R.layout.videolist_element, parent, false);
             YouTubeThumbnailView thumbnail = (YouTubeThumbnailView) view.findViewById(R.id.thumbnail);
-            thumbnail.setTag(entry.getVideoId());
+            thumbnail.setTag(entry.getVideoid());
             thumbnail.initialize(DeveloperKey.DEVELOPER_KEY, m_thumbnailListener);
 
         }else {
@@ -73,16 +79,16 @@ public class VideoListAdapter extends BaseAdapter {
             if (loader == null) {
                 // 2) The view is already created, and is currently being initialized. We store the
                 //    current videoId in the tag.
-                thumbnail.setTag(entry.getVideoId());
+                thumbnail.setTag(entry.getVideoid());
             } else {
                 // 3) The view is already created and already initialized. Simply set the right videoId
                 //    on the loader.
                 thumbnail.setImageResource(R.drawable.loading_thumbnail);
-                loader.setVideo(entry.getVideoId());
+                loader.setVideo(entry.getVideoid());
             }
         }
         TextView textView = (TextView) view.findViewById(R.id.textView);
-        textView.setText(entry.getText());
+        textView.setText(entry.getTitle());
         return  view;
     }
 
