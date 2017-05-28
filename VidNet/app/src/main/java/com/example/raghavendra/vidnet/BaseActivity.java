@@ -29,5 +29,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         VidNetApplication.getInstance().setForeground(false);
+        getResources();
     }
 }

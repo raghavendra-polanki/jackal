@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import com.example.raghavendra.vidnet.home.HomeActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerFragment;
@@ -20,55 +21,40 @@ import static android.widget.ListPopupWindow.MATCH_PARENT;
  */
 
 public class VideoPlayerFragment extends YouTubePlayerFragment implements
-             YouTubePlayer.OnInitializedListener ,
-             YouTubePlayer.OnFullscreenListener{
+             YouTubePlayer.OnInitializedListener {
 
     private YouTubePlayer m_youTubePlayer;
     String m_videoId;
-    boolean mIsFullScreen;
-    View mView;
-
 
     public static VideoPlayerFragment newInstance() {
         return new VideoPlayerFragment();
     }
 
     @Override
-    public void onCreate(Bundle bundle) {
-        super.onCreate(bundle);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         initialize(DeveloperKey.DEVELOPER_KEY, this);
     }
 
     @Override
-    public View onCreateView(LayoutInflater layoutInflater, ViewGroup viewGroup, Bundle bundle) {
-
-
-        View view = super.onCreateView(layoutInflater, viewGroup, bundle);
-
-
-        FrameLayout.LayoutParams params = (FrameLayout.LayoutParams)viewGroup.getLayoutParams();
-        if(params != null) {
-            params.width = MATCH_PARENT;
-            params.height = MATCH_PARENT;
-            params.gravity = Gravity.CENTER;
-            view.setLayoutParams(params);
-        }
-
-
-        return  view;
-    }
-
-    @Override
     public void onDestroy() {
+        if (m_youTubePlayer != null) {
+            m_youTubePlayer.release();
+        }
         super.onDestroy();
-
-        m_youTubePlayer.release();
     }
 
     public void setVideoId(String videoId) {
-        if (videoId != null && !videoId.equals(this.m_videoId)) {
-            this.m_videoId = videoId;
+        if (videoId != null) {
+            if(!videoId.equals(this.m_videoId)) {
+                this.m_videoId = videoId;
+                if (m_youTubePlayer != null) {
+                    m_youTubePlayer.loadVideo(this.m_videoId);
+                }
+            }else{
+                m_youTubePlayer.play();
+            }
         }
     }
 
@@ -78,35 +64,26 @@ public class VideoPlayerFragment extends YouTubePlayerFragment implements
         }
     }
 
-    public boolean onBackButtonPressed(){
+//    public boolean onBackButtonPressed(){
+//
+//        if(mIsFullScreen){
+//            m_youTubePlayer.setFullscreen(false);
+//            return false;
+//        }else{
+//            return true;
+//        }
+//
+//    }
 
-        if(mIsFullScreen){
-            m_youTubePlayer.setFullscreen(false);
-            return false;
-        }else{
-            return true;
-        }
-
-    }
-
-    @Override
-    public void onFullscreen(boolean b) {
-        mIsFullScreen = b;
-    }
 
     @Override
     public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean restored) {
 
         this.m_youTubePlayer = youTubePlayer;
-        m_youTubePlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.DEFAULT);
-        m_youTubePlayer.setOnFullscreenListener(this);
-        mView = getView();
-//        youTubePlayer.addFullscreenControlFlag(YouTubePlayer.FULLSCREEN_FLAG_CUSTOM_LAYOUT);
-//        youTubePlayer.setOnFullscreenListener((VideoListDemoActivity) getActivity());
+        youTubePlayer.addFullscreenControlFlag(YouTubePlayer.FULLSCREEN_FLAG_CUSTOM_LAYOUT);
+        youTubePlayer.setOnFullscreenListener((HomeActivity) getActivity());
         if (!restored && this.m_videoId != null) {
             youTubePlayer.loadVideo(this.m_videoId);
-        }else{
-            youTubePlayer.play();
         }
     }
 

@@ -2,4 +2,5 @@
     <string name="app_name">VidNet</string>
     <string name="no_internet">No Internet.Please Try Again</string>
     <string name="refresh">Refresh</string>
+    <string name="error_player">There was an error initializing the YouTubePlayer (%1$s)</string>
 </resources>

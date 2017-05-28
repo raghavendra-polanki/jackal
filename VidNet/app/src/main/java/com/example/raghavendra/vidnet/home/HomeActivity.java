@@ -1,12 +1,20 @@
 package com.example.raghavendra.vidnet.home;
 
+import android.app.Fragment;
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.raghavendra.vidnet.BaseActivity;
 import com.example.raghavendra.vidnet.R;
@@ -14,6 +22,9 @@ import com.example.raghavendra.vidnet.VidNetApplication;
 import com.example.raghavendra.vidnet.VideoEntry;
 import com.example.raghavendra.vidnet.VideoPlayerFragment;
 import com.example.raghavendra.vidnet.utils.NetworkUtils;
+import com.google.android.youtube.player.YouTubeApiServiceUtil;
+import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
 
 import java.util.List;
 
@@ -23,6 +34,8 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import static com.example.raghavendra.vidnet.utils.Constants.RV_CACHE_COUNT;
 
 /**
@@ -30,7 +43,15 @@ import static com.example.raghavendra.vidnet.utils.Constants.RV_CACHE_COUNT;
  */
 
 public class HomeActivity extends BaseActivity implements
-        HomeAdapter.HomeClickListener {
+        HomeAdapter.HomeClickListener,
+        YouTubePlayer.OnFullscreenListener {
+
+    private static final int RECOVERY_DIALOG_REQUEST = 1;
+
+    private static final int LANDSCAPE_VIDEO_PADDING_DP = 5;
+
+    private static final int ANIMATION_DURATION_MILLIS = 300;
+
 
     @Bind(R.id.swipeRefreshLayout)
     SwipeRefreshLayout mSwipeRefreshLayout;
@@ -44,23 +65,32 @@ public class HomeActivity extends BaseActivity implements
     @Bind(R.id.tv_placeholder)
     TextView mPlaceholderTv;
 
-//    @Bind(android.R.id.progress)
-//    View mProgress;
+    VideoPlayerFragment mVideoPlayerFragment;
+
+    @Bind(R.id.videoplayer_container)
+    FrameLayout mVideoPlayerContainer;
 
     LinearLayoutManager linearLayoutManager;
     private HomeAdapter mAdapter;
 
-    private VideoPlayerFragment mVideoPlayerFragment;
+    private boolean mIsFullscreen;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_home);
+
         ButterKnife.bind(this);
         if(getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
 
+        mVideoPlayerFragment =
+                (VideoPlayerFragment) getFragmentManager().findFragmentById(R.id.videoplayer_fragment);
+
+        mVideoPlayerContainer.setVisibility(View.INVISIBLE);
 
         linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -70,12 +100,15 @@ public class HomeActivity extends BaseActivity implements
 
         mAdapter = new HomeAdapter(this, this);
 
-        populateUi();
         if(!NetworkUtils.isNetworkAvailable(this)) {
             mEmpty.setVisibility(View.VISIBLE);
-//            mProgress.setVisibility(View.GONE);
         }
 
+        checkYouTubeApi();
+
+        populateUi();
+
+        layout();
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -87,7 +120,18 @@ public class HomeActivity extends BaseActivity implements
 
         refreshVideos();
 
-        mVideoPlayerFragment = new VideoPlayerFragment();
+    }
+
+    private void checkYouTubeApi() {
+        YouTubeInitializationResult errorReason =
+                YouTubeApiServiceUtil.isYouTubeApiServiceAvailable(this);
+        if (errorReason.isUserRecoverableError()) {
+            errorReason.getErrorDialog(this, RECOVERY_DIALOG_REQUEST).show();
+        } else if (errorReason != YouTubeInitializationResult.SUCCESS) {
+            String errorMessage =
+                    String.format(getString(R.string.error_player), errorReason.toString());
+            Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
+        }
     }
 
     private void refreshVideos(){
@@ -107,9 +151,58 @@ public class HomeActivity extends BaseActivity implements
                 });
     }
 
+    private void layout() {
+        boolean isPortrait =
+                getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
+
+//        mRecyclerView.setVisibility(mIsFullscreen ? View.GONE : View.VISIBLE);
+
+        if (mIsFullscreen) {
+            mVideoPlayerContainer.setTranslationY(0); // Reset any translation that was applied in portrait.
+            setLayoutSize(mVideoPlayerFragment.getView(), MATCH_PARENT, MATCH_PARENT);
+            setLayoutSizeAndGravity(mVideoPlayerContainer, MATCH_PARENT, MATCH_PARENT, Gravity.TOP | Gravity.LEFT);
+        } else if (isPortrait) {
+            setLayoutSize(mRecyclerView, MATCH_PARENT, MATCH_PARENT);
+            setLayoutSize(mVideoPlayerFragment.getView(), MATCH_PARENT, MATCH_PARENT);
+            setLayoutSizeAndGravity(mVideoPlayerContainer, MATCH_PARENT, MATCH_PARENT, Gravity.BOTTOM);
+        } else {
+            mVideoPlayerContainer.setTranslationY(0); // Reset any translation that was applied in portrait.
+//            int screenWidth = dpToPx(getResources().getConfiguration().screenWidthDp);
+            setLayoutSize(mRecyclerView, MATCH_PARENT, MATCH_PARENT);
+            setLayoutSize(mVideoPlayerFragment.getView(), MATCH_PARENT, MATCH_PARENT);
+            setLayoutSizeAndGravity(mVideoPlayerContainer, MATCH_PARENT, MATCH_PARENT,
+                    Gravity.RIGHT | Gravity.CENTER_VERTICAL);
+        }
+    }
     private void populateUi() {
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(mAdapter);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == RECOVERY_DIALOG_REQUEST) {
+            // Recreate the activity if user performed a recovery action
+            recreate();
+        }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        layout();
+    }
+
+    @Override
+    public void onFullscreen(boolean isFullscreen) {
+        this.mIsFullscreen = isFullscreen;
+
+//        if(!isFullscreen){
+//            setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+//        }
+
+        layout();
     }
 
     @Override
@@ -129,30 +222,58 @@ public class HomeActivity extends BaseActivity implements
 
         String videoId = videoEntry.getVideoid();
 
-        getFragmentManager().beginTransaction()
-                .replace(R.id.home_activity, mVideoPlayerFragment, "videoPlayerFragment")
-                .addToBackStack(null)
-                .commit();
         mVideoPlayerFragment.setVideoId(videoId);
 
-//        getFragmentManager().beginTransaction()
-//                .add(mVideoPlayerFragment, "videoPlayerFragment")
-//                .commit();
-//        mVideoPlayerFragment.setVideoId(videoId);
+
+        // The videoBox is INVISIBLE if no video was previously selected, so we need to show it now.
+        if (mVideoPlayerContainer.getVisibility() != View.VISIBLE) {
+            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                // Initially translate off the screen so that it can be animated in from below.
+//                mVideoPlayerContainer.setTranslationY(mVideoPlayerContainer.getHeight());
+            }
+            mVideoPlayerContainer.setVisibility(View.VISIBLE);
+        }
+
+//        // If the fragment is off the screen, we animate it in.
+//        if (mVideoPlayerContainer.getTranslationY() > 0) {
+//            mVideoPlayerContainer.animate().translationY(0).setDuration(ANIMATION_DURATION_MILLIS);
+//        }
 
     }
 
     @Override
     public void onBackPressed() {
-        final VideoPlayerFragment videoPlayerFragment = (VideoPlayerFragment) getFragmentManager().findFragmentByTag("videoPlayerFragment");
 
-        if (videoPlayerFragment != null) { // and then you define a method allowBackPressed with the logic to allow back pressed or not
-            if(videoPlayerFragment.onBackButtonPressed()) {
-                super.onBackPressed();
-            }
-        }else{
+        if (mVideoPlayerContainer.getVisibility() != View.VISIBLE) {
             super.onBackPressed();
+            return;
         }
+
+        mVideoPlayerFragment.pause();
+        mVideoPlayerContainer.setVisibility(View.INVISIBLE);
+
+
+    }
+
+    // Utility methods for layouting.
+
+    private int dpToPx(int dp) {
+        return (int) (dp * getResources().getDisplayMetrics().density + 0.5f);
+    }
+
+    private static void setLayoutSize(View view, int width, int height) {
+        ViewGroup.LayoutParams params = view.getLayoutParams();
+        params.width = width;
+        params.height = height;
+        view.setLayoutParams(params);
+    }
+
+    private static void setLayoutSizeAndGravity(View view, int width, int height, int gravity) {
+        FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) view.getLayoutParams();
+        params.width = width;
+        params.height = height;
+        params.gravity = gravity;
+        view.setLayoutParams(params);
     }
 
 }
