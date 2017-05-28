@@ -36,6 +36,6 @@ dependencies {
     provided "org.projectlombok:lombok:1.12.6"
     compile 'com.android.support:multidex:1.0.0'
     compile 'com.android.support:design:23.2.1'
-
+    compile 'com.android.support:percent:22.2.0'
 
 }

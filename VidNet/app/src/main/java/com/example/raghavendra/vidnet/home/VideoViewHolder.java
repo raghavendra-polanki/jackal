@@ -49,7 +49,9 @@ public class VideoViewHolder extends RecyclerView.ViewHolder{
     public void bind(VideoEntry videoEntry) {
 
         //if(view == null){
+            thumbnailView.setTag(R.id.key_asset, videoEntry);
             thumbnailView.setTag(videoEntry.getVideoid());
+            thumbnailView.setOnClickListener(onClickListener);
             thumbnailView.initialize(DeveloperKey.DEVELOPER_KEY, m_thumbnailListener);
 
 //        }else {

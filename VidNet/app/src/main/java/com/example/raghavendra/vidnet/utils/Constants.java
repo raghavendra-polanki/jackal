@@ -6,6 +6,7 @@ public class Constants {
 
 
     public static final String BASE_URL = "http://139.59.56.95:3000";
+    public static final int RV_CACHE_COUNT = 10;
 
 
 }

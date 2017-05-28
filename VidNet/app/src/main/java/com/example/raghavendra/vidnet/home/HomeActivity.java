@@ -23,6 +23,8 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
+import static com.example.raghavendra.vidnet.utils.Constants.RV_CACHE_COUNT;
+
 /**
  * Created by raghavendra on 26/05/17.
  */
@@ -64,8 +66,9 @@ public class HomeActivity extends BaseActivity implements
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
         mRecyclerView.setLayoutManager(linearLayoutManager);
+        mRecyclerView.setItemViewCacheSize(RV_CACHE_COUNT);
 
-        mAdapter = new HomeAdapter(this);
+        mAdapter = new HomeAdapter(this, this);
 
         populateUi();
         if(!NetworkUtils.isNetworkAvailable(this)) {
@@ -112,7 +115,6 @@ public class HomeActivity extends BaseActivity implements
     @Override
     protected void onResume() {
         super.onResume();
-        mAdapter.updateViews();
 
     }
 
@@ -128,11 +130,29 @@ public class HomeActivity extends BaseActivity implements
         String videoId = videoEntry.getVideoid();
 
         getFragmentManager().beginTransaction()
-                .replace(R.id.videolist_container, mVideoPlayerFragment, null)
+                .replace(R.id.home_activity, mVideoPlayerFragment, "videoPlayerFragment")
                 .addToBackStack(null)
                 .commit();
         mVideoPlayerFragment.setVideoId(videoId);
 
+//        getFragmentManager().beginTransaction()
+//                .add(mVideoPlayerFragment, "videoPlayerFragment")
+//                .commit();
+//        mVideoPlayerFragment.setVideoId(videoId);
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        final VideoPlayerFragment videoPlayerFragment = (VideoPlayerFragment) getFragmentManager().findFragmentByTag("videoPlayerFragment");
+
+        if (videoPlayerFragment != null) { // and then you define a method allowBackPressed with the logic to allow back pressed or not
+            if(videoPlayerFragment.onBackButtonPressed()) {
+                super.onBackPressed();
+            }
+        }else{
+            super.onBackPressed();
+        }
     }
 
 }

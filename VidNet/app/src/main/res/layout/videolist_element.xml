@@ -17,22 +17,25 @@
         android:id="@+id/textView1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center_horizontal|center_vertical"
-        android:background="#77000000"
-        android:text=""
-        android:textColor="#FFFFFF"
-        android:textSize="36sp" />
+        android:layout_gravity="center"
+        android:background="#88000000" />
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|center_vertical"
+        android:layout_gravity="center"
         android:background="#00000000"
         android:text="TextView"
-        android:textColor="#DDDDDD"
-        android:textSize="28sp"
         android:textAllCaps="true"
-        android:textStyle="bold"/>
+        android:textColor="#AAAAAA"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textAlignment="gravity"
+        android:maxEms="15"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:drawableBottom="@drawable/video_text_line"/>
 
 </FrameLayout>

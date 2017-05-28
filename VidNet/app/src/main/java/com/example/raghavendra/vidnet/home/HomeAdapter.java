@@ -25,12 +25,13 @@ public class HomeAdapter extends RecyclerView.Adapter implements
     }
 
     private List<VideoEntry> mvideoEntries;
-
+    private HomeClickListener mListener;
     private Context mContext;
 
 
-    public HomeAdapter(Context context) {
+    public HomeAdapter(Context context, HomeClickListener listener) {
         mContext = context;
+        mListener = listener;
         mvideoEntries = new ArrayList<>();
     }
 
@@ -57,6 +58,9 @@ public class HomeAdapter extends RecyclerView.Adapter implements
     @Override
     public void onClick(View v) {
 
+        if (v.getTag(R.id.key_asset) != null && v.getTag(R.id.key_asset) instanceof VideoEntry) {
+            mListener.onVideoClicked((VideoEntry) v.getTag(R.id.key_asset));
+        }
     }
 
     @Override
