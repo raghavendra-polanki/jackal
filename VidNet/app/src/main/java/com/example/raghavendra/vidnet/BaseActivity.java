@@ -2,21 +2,16 @@ package com.example.raghavendra.vidnet;
 
 import android.support.v7.app.AppCompatActivity;
 
-import com.example.raghavendra.vidnet.widgets.VidNetProgressDialog;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
-    private VidNetProgressDialog mDialog;
 
     protected void showProgress(String message) {
-        mDialog = VidNetProgressDialog.newInstance(message);
-        mDialog.show(getSupportFragmentManager(), "progress");
+
     }
 
     protected void hideProgress() {
-        if(mDialog != null) {
-            mDialog.dismiss();
-        }
+
     }
 
     @Override

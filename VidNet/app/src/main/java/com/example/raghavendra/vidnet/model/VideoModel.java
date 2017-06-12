@@ -1,4 +1,4 @@
-package com.example.raghavendra.vidnet;
+package com.example.raghavendra.vidnet.model;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -12,7 +12,7 @@ import lombok.Setter;
  * Created by raghavendra on 20/05/17.
  */
 
-public  class VideoEntry implements Serializable {
+public  class VideoModel implements Serializable {
 
     @Getter
     @Setter

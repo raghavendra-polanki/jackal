@@ -1,8 +1,6 @@
 package com.example.raghavendra.vidnet.home;
 
-import android.app.Fragment;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -19,7 +17,8 @@ import android.widget.Toast;
 import com.example.raghavendra.vidnet.BaseActivity;
 import com.example.raghavendra.vidnet.R;
 import com.example.raghavendra.vidnet.VidNetApplication;
-import com.example.raghavendra.vidnet.VideoEntry;
+import com.example.raghavendra.vidnet.login.SplashScreenActivity;
+import com.example.raghavendra.vidnet.model.VideoModel;
 import com.example.raghavendra.vidnet.VideoPlayerFragment;
 import com.example.raghavendra.vidnet.utils.NetworkUtils;
 import com.google.android.youtube.player.YouTubeApiServiceUtil;
@@ -35,7 +34,6 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
-import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import static com.example.raghavendra.vidnet.utils.Constants.RV_CACHE_COUNT;
 
 /**
@@ -87,6 +85,16 @@ public class HomeActivity extends BaseActivity implements
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
 
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Refresh items
+                refreshVideos();
+            }
+        });
+
+        refreshVideos();
+
         mVideoPlayerFragment =
                 (VideoPlayerFragment) getFragmentManager().findFragmentById(R.id.videoplayer_fragment);
 
@@ -110,15 +118,8 @@ public class HomeActivity extends BaseActivity implements
 
         layout();
 
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                // Refresh items
-                refreshVideos();
-            }
-        });
-
-        refreshVideos();
+        Intent mIntent = new Intent(this, SplashScreenActivity.class);
+        startActivity(mIntent);
 
     }
 
@@ -136,9 +137,9 @@ public class HomeActivity extends BaseActivity implements
 
     private void refreshVideos(){
         VidNetApplication.getInstance().getApiHandler().getVideoList("",
-                new Callback<List<VideoEntry>>() {
+                new Callback<List<VideoModel>>() {
                     @Override
-                    public void success(List<VideoEntry> videos, Response response) {
+                    public void success(List<VideoModel> videos, Response response) {
                         mAdapter.add(videos);
                         mSwipeRefreshLayout.setRefreshing(false);
                     }
@@ -218,9 +219,9 @@ public class HomeActivity extends BaseActivity implements
 
 
     @Override
-    public void onVideoClicked(VideoEntry videoEntry) {
+    public void onVideoClicked(VideoModel videoModel) {
 
-        String videoId = videoEntry.getVideoid();
+        String videoId = videoModel.getVideoid();
 
         mVideoPlayerFragment.setVideoId(videoId);
 

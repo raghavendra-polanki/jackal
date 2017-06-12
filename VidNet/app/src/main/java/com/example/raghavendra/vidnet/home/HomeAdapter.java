@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.raghavendra.vidnet.R;
-import com.example.raghavendra.vidnet.VideoEntry;
+import com.example.raghavendra.vidnet.model.VideoModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,10 +21,10 @@ public class HomeAdapter extends RecyclerView.Adapter implements
         View.OnClickListener{
 
     public interface HomeClickListener {
-        void onVideoClicked(VideoEntry videoEntry);
+        void onVideoClicked(VideoModel videoModel);
     }
 
-    private List<VideoEntry> mvideoEntries;
+    private List<VideoModel> mvideoEntries;
     private HomeClickListener mListener;
     private Context mContext;
 
@@ -35,7 +35,7 @@ public class HomeAdapter extends RecyclerView.Adapter implements
         mvideoEntries = new ArrayList<>();
     }
 
-    public void add(List<VideoEntry> videoList) {
+    public void add(List<VideoModel> videoList) {
         mvideoEntries = videoList;
         notifyDataSetChanged();
     }
@@ -58,15 +58,15 @@ public class HomeAdapter extends RecyclerView.Adapter implements
     @Override
     public void onClick(View v) {
 
-        if (v.getTag(R.id.key_asset) != null && v.getTag(R.id.key_asset) instanceof VideoEntry) {
-            mListener.onVideoClicked((VideoEntry) v.getTag(R.id.key_asset));
+        if (v.getTag(R.id.key_asset) != null && v.getTag(R.id.key_asset) instanceof VideoModel) {
+            mListener.onVideoClicked((VideoModel) v.getTag(R.id.key_asset));
         }
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        VideoEntry videoEntry = mvideoEntries.get(position);
-        ((VideoViewHolder)holder).bind(videoEntry);
+        VideoModel videoModel = mvideoEntries.get(position);
+        ((VideoViewHolder)holder).bind(videoModel);
     }
 
 
@@ -74,7 +74,7 @@ public class HomeAdapter extends RecyclerView.Adapter implements
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         return new VideoViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.videolist_element, parent, false), this);
+                .inflate(R.layout.layout_videomodel, parent, false), this);
     }
 
 }

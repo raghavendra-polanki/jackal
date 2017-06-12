@@ -1,15 +1,12 @@
 package com.example.raghavendra.vidnet.home;
 
-import android.provider.MediaStore;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.raghavendra.vidnet.DeveloperKey;
 import com.example.raghavendra.vidnet.R;
-import com.example.raghavendra.vidnet.VideoEntry;
+import com.example.raghavendra.vidnet.model.VideoModel;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubeThumbnailLoader;
 import com.google.android.youtube.player.YouTubeThumbnailView;
@@ -46,11 +43,11 @@ public class VideoViewHolder extends RecyclerView.ViewHolder{
         m_thumbnailListener = new ThumbnailListener();
     }
 
-    public void bind(VideoEntry videoEntry) {
+    public void bind(VideoModel videoModel) {
 
         //if(view == null){
-            thumbnailView.setTag(R.id.key_asset, videoEntry);
-            thumbnailView.setTag(videoEntry.getVideoid());
+            thumbnailView.setTag(R.id.key_asset, videoModel);
+            thumbnailView.setTag(videoModel.getVideoid());
             thumbnailView.setOnClickListener(onClickListener);
             thumbnailView.initialize(DeveloperKey.DEVELOPER_KEY, m_thumbnailListener);
 
@@ -69,7 +66,7 @@ public class VideoViewHolder extends RecyclerView.ViewHolder{
 //            }
 //        }
 
-        textView.setText(videoEntry.getTitle());
+        textView.setText(videoModel.getTitle());
 
     }
 
