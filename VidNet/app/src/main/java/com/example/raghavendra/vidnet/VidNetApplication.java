@@ -2,11 +2,14 @@ package com.example.raghavendra.vidnet;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.support.multidex.MultiDex;
 
 
 import com.example.raghavendra.vidnet.api.APIHandler;
 import com.example.raghavendra.vidnet.utils.Constants;
+import com.example.raghavendra.vidnet.utils.LocalStorage;
 import com.squareup.okhttp.OkHttpClient;
 
 import java.util.concurrent.TimeUnit;
@@ -40,6 +43,7 @@ public class VidNetApplication extends Application {
     public void onCreate() {
         super.onCreate();
         sInstance = this;
+        LocalStorage.getInstance(this);
 
 
         initApiHandler();
@@ -70,6 +74,15 @@ public class VidNetApplication extends Application {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(this);
+    }
+
+    public int getVersionCode() {
+        try {
+            PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            return pInfo.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            return 0;
+        }
     }
 
     public void setForeground(boolean foregound) {

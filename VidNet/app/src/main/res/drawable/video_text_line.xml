@@ -3,9 +3,9 @@
     android:shape="rectangle" >
 
     <size
-        android:height="4dp"
-        android:width="150dp" />
+        android:height="@dimen/videoTextLineHeight"
+        android:width="@dimen/videoTextLineWeight" />
 
-    <solid android:color="#AA888888" />
+    <solid android:color="@color/videoTextLineColor" />
 
 </shape>

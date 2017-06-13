@@ -8,6 +8,7 @@ import android.widget.ImageView;
 
 import com.example.raghavendra.vidnet.R;
 import com.example.raghavendra.vidnet.home.HomeActivity;
+import com.example.raghavendra.vidnet.utils.LocalStorage;
 
 
 import butterknife.Bind;
@@ -39,7 +40,8 @@ public class SplashScreenActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                finish();
+                goForward();
+//                finish();
             }
         }, SPLASH_TIME_OUT);
 
@@ -48,7 +50,23 @@ public class SplashScreenActivity extends AppCompatActivity {
 
 
     private void goForward() {
+//        PushNotificationContent content = null;
+//        Bundle bundle = getIntent().getExtras();
+//        if (bundle != null && bundle.containsKey(KEY_PUSH_CONTENT)) {
+//            content = bundle.getParcelable(KEY_PUSH_CONTENT);
+//        }
 
+        if(LocalStorage.getInstance().getUser() != null) {
+            Intent intent = new Intent(SplashScreenActivity.this, HomeActivity.class);
+//            if (content != null) {
+//                intent.putExtra(KEY_PUSH_CONTENT, content);
+//            }
+            startActivity(intent);
+            finish();
+        } else {
+            startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
+            finish();
+        }
 
     }
 

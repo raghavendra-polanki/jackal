@@ -17,13 +17,21 @@
         android:theme="@style/AppTheme">
         <activity android:name=".login.SplashScreenActivity"
             android:screenOrientation="portrait">
-        </activity>
-        <activity android:name="com.example.raghavendra.vidnet.home.HomeActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="com.example.raghavendra.vidnet.login.LoginActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.example.raghavendra.vidnet.login.OtpActivity"
+            android:label="@string/validate_otp"
+            android:screenOrientation="portrait"/>
+        <activity android:name="com.example.raghavendra.vidnet.home.HomeActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize">
         </activity>
     </application>
 

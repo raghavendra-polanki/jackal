@@ -118,8 +118,8 @@ public class HomeActivity extends BaseActivity implements
 
         layout();
 
-        Intent mIntent = new Intent(this, SplashScreenActivity.class);
-        startActivity(mIntent);
+//        Intent mIntent = new Intent(this, SplashScreenActivity.class);
+//        startActivity(mIntent);
 
     }
 
