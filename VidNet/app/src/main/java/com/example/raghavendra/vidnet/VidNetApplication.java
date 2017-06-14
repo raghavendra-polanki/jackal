@@ -38,6 +38,9 @@ public class VidNetApplication extends Application {
     @Getter
     private APIHandler apiHandler;
 
+    @Getter
+    private FeedManager feedManager;
+
 
     @Override
     public void onCreate() {
@@ -47,6 +50,11 @@ public class VidNetApplication extends Application {
 
 
         initApiHandler();
+
+        feedManager = new FeedManager();
+        feedManager.initializeEngineFeed();
+        feedManager.initializeSocialFeed();
+
 
     }
 

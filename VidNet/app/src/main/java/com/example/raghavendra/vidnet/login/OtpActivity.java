@@ -21,7 +21,7 @@ import com.example.raghavendra.vidnet.R;
 import com.example.raghavendra.vidnet.VidNetApplication;
 import com.example.raghavendra.vidnet.api.RestCallback;
 import com.example.raghavendra.vidnet.api.RestError;
-import com.example.raghavendra.vidnet.home.HomeActivity;
+import com.example.raghavendra.vidnet.home.EngineFeedActivity;
 import com.example.raghavendra.vidnet.model.User;
 import com.example.raghavendra.vidnet.model.apiRequest.AuthenticateOtpRequest;
 import com.example.raghavendra.vidnet.model.apiRequest.RegisterAppRequest;
@@ -145,7 +145,7 @@ public class OtpActivity extends BaseActivity {
 //                            props);
                 }
 
-                Intent homeIntent = new Intent(OtpActivity.this, HomeActivity.class);
+                Intent homeIntent = new Intent(OtpActivity.this, EngineFeedActivity.class);
 //                homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 setResult(RESULT_OK);
                 startActivity(homeIntent);

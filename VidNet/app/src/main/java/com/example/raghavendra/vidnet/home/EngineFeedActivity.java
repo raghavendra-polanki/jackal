@@ -17,7 +17,6 @@ import android.widget.Toast;
 import com.example.raghavendra.vidnet.BaseActivity;
 import com.example.raghavendra.vidnet.R;
 import com.example.raghavendra.vidnet.VidNetApplication;
-import com.example.raghavendra.vidnet.login.SplashScreenActivity;
 import com.example.raghavendra.vidnet.model.VideoModel;
 import com.example.raghavendra.vidnet.VideoPlayerFragment;
 import com.example.raghavendra.vidnet.utils.NetworkUtils;
@@ -40,8 +39,8 @@ import static com.example.raghavendra.vidnet.utils.Constants.RV_CACHE_COUNT;
  * Created by raghavendra on 26/05/17.
  */
 
-public class HomeActivity extends BaseActivity implements
-        HomeAdapter.HomeClickListener,
+public class EngineFeedActivity extends BaseActivity implements
+        EngineFeedAdapter.EngineFeedClickListener,
         YouTubePlayer.OnFullscreenListener {
 
     private static final int RECOVERY_DIALOG_REQUEST = 1;
@@ -69,7 +68,7 @@ public class HomeActivity extends BaseActivity implements
     FrameLayout mVideoPlayerContainer;
 
     LinearLayoutManager linearLayoutManager;
-    private HomeAdapter mAdapter;
+    private EngineFeedAdapter mAdapter;
 
     private boolean mIsFullscreen;
 
@@ -78,7 +77,7 @@ public class HomeActivity extends BaseActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_enginefeed);
 
         ButterKnife.bind(this);
         if(getSupportActionBar() != null) {
@@ -106,7 +105,7 @@ public class HomeActivity extends BaseActivity implements
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mRecyclerView.setItemViewCacheSize(RV_CACHE_COUNT);
 
-        mAdapter = new HomeAdapter(this, this);
+        mAdapter = new EngineFeedAdapter(this, this);
 
         if(!NetworkUtils.isNetworkAvailable(this)) {
             mEmpty.setVisibility(View.VISIBLE);

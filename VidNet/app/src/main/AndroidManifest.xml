@@ -30,7 +30,7 @@
             android:name="com.example.raghavendra.vidnet.login.OtpActivity"
             android:label="@string/validate_otp"
             android:screenOrientation="portrait"/>
-        <activity android:name="com.example.raghavendra.vidnet.home.HomeActivity"
+        <activity android:name="com.example.raghavendra.vidnet.home.HomeSliderActivity"
             android:configChanges="orientation|keyboardHidden|screenSize">
         </activity>
     </application>

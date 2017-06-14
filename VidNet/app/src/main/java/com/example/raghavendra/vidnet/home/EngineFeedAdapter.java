@@ -17,19 +17,19 @@ import java.util.List;
  * Created by raghavendra on 26/05/17.
  */
 
-public class HomeAdapter extends RecyclerView.Adapter implements
+public class EngineFeedAdapter extends RecyclerView.Adapter implements
         View.OnClickListener{
 
-    public interface HomeClickListener {
+    public interface EngineFeedClickListener {
         void onVideoClicked(VideoModel videoModel);
     }
 
     private List<VideoModel> mvideoEntries;
-    private HomeClickListener mListener;
+    private EngineFeedClickListener mListener;
     private Context mContext;
 
 
-    public HomeAdapter(Context context, HomeClickListener listener) {
+    public EngineFeedAdapter(Context context, EngineFeedClickListener listener) {
         mContext = context;
         mListener = listener;
         mvideoEntries = new ArrayList<>();

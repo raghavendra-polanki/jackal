@@ -1,19 +1,11 @@
 package com.example.raghavendra.vidnet;
 
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
-import com.example.raghavendra.vidnet.home.HomeActivity;
+import com.example.raghavendra.vidnet.home.EngineFeedActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerFragment;
-
-import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
-import static android.widget.ListPopupWindow.MATCH_PARENT;
 
 
 /**
@@ -81,7 +73,7 @@ public class VideoPlayerFragment extends YouTubePlayerFragment implements
 
         this.m_youTubePlayer = youTubePlayer;
         youTubePlayer.addFullscreenControlFlag(YouTubePlayer.FULLSCREEN_FLAG_CUSTOM_LAYOUT);
-        youTubePlayer.setOnFullscreenListener((HomeActivity) getActivity());
+        youTubePlayer.setOnFullscreenListener((EngineFeedActivity) getActivity());
         if (!restored && this.m_videoId != null) {
             youTubePlayer.loadVideo(this.m_videoId);
         }

@@ -7,7 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
 import com.example.raghavendra.vidnet.R;
-import com.example.raghavendra.vidnet.home.HomeActivity;
+import com.example.raghavendra.vidnet.home.EngineFeedActivity;
+import com.example.raghavendra.vidnet.home.HomeSliderActivity;
 import com.example.raghavendra.vidnet.utils.LocalStorage;
 
 
@@ -57,7 +58,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 //        }
 
         if(LocalStorage.getInstance().getUser() != null) {
-            Intent intent = new Intent(SplashScreenActivity.this, HomeActivity.class);
+            Intent intent = new Intent(SplashScreenActivity.this, HomeSliderActivity.class);
 //            if (content != null) {
 //                intent.putExtra(KEY_PUSH_CONTENT, content);
 //            }
