@@ -6,7 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.raghavendra.vidnet.FeedManager;
 import com.example.raghavendra.vidnet.R;
+import com.example.raghavendra.vidnet.VidNetApplication;
 import com.example.raghavendra.vidnet.model.VideoModel;
 
 import java.util.ArrayList;
@@ -24,24 +26,28 @@ public class EngineFeedAdapter extends RecyclerView.Adapter implements
         void onVideoClicked(VideoModel videoModel);
     }
 
-    private List<VideoModel> mvideoEntries;
     private EngineFeedClickListener mListener;
     private Context mContext;
+    private FeedManager mFeedManager;
+
 
 
     public EngineFeedAdapter(Context context, EngineFeedClickListener listener) {
         mContext = context;
         mListener = listener;
-        mvideoEntries = new ArrayList<>();
+        mFeedManager = VidNetApplication.getInstance().getFeedManager();
     }
 
+    public void onFeedUpdated(){
+        notifyDataSetChanged();
+    }
+
+
     public void add(List<VideoModel> videoList) {
-        mvideoEntries = videoList;
         notifyDataSetChanged();
     }
 
     public void clear() {
-        mvideoEntries.clear();
         notifyDataSetChanged();
     }
 
@@ -52,7 +58,8 @@ public class EngineFeedAdapter extends RecyclerView.Adapter implements
 
     @Override
     public int getItemCount() {
-        return mvideoEntries != null ? mvideoEntries.size() : 0;
+
+        return mFeedManager.getEngineFeedSize();
     }
 
     @Override
@@ -65,7 +72,7 @@ public class EngineFeedAdapter extends RecyclerView.Adapter implements
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        VideoModel videoModel = mvideoEntries.get(position);
+        VideoModel videoModel = mFeedManager.getEngineFeed(position);
         ((VideoViewHolder)holder).bind(videoModel);
     }
 

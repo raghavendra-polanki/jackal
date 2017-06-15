@@ -22,7 +22,16 @@ public class HomeSliderAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
 
-        return SocialFeedFragment.create(position);
+        Fragment fragment = null;
+        switch (position){
+            case 0 : fragment = EngineFeedFragment.create(position);
+                break;
+            case 1 : fragment = SocialFeedFragment.create(position);
+                break;
+
+
+        }
+        return fragment;
     }
 
     @Override

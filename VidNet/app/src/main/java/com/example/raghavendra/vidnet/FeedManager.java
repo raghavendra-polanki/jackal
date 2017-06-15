@@ -2,6 +2,7 @@ package com.example.raghavendra.vidnet;
 
 import com.example.raghavendra.vidnet.model.VideoModel;
 
+import java.util.Collections;
 import java.util.List;
 
 import retrofit.Callback;
@@ -21,7 +22,7 @@ public class FeedManager {
     private SocialFeedListener mSocialFeedListner;
 
     public interface EngineFeedListener {
-        void onFeedRefreshed(VideoModel videoModel);
+        void onFeedRefreshed(boolean refreshStatus);
     }
 
     public void setEngineFeedListner(EngineFeedListener listener){
@@ -34,11 +35,17 @@ public class FeedManager {
                     @Override
                     public void success(List<VideoModel> videos, Response response) {
                         mEngineFeed = videos;
+                        Collections.reverse(mEngineFeed);
+                        if(mEngineFeedListner != null){
+                            mEngineFeedListner.onFeedRefreshed(true);
+                        }
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
-
+                        if(mEngineFeedListner != null){
+                            mEngineFeedListner.onFeedRefreshed(true);
+                        }
                     }
                 });
     }
@@ -47,6 +54,11 @@ public class FeedManager {
 
         return mEngineFeed.get(position);
     }
+
+    public int getEngineFeedSize(){
+        return mEngineFeed != null ? mEngineFeed.size() : 0;
+    }
+
 
     public interface SocialFeedListener {
         void onFeedRefreshed(boolean refreshStatus);
