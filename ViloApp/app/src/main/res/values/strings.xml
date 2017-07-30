@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">VidNet</string>
+    <string name="no_internet">No Internet.Please Try Again</string>
+    <string name="refresh">Refresh</string>
+    <string name="error_player">There was an error initializing the YouTubePlayer (%1$s)</string>
+    <string name="enter_phone_number_hint">Enter 10 digit mobile number</string>
+    <string name="you_have_been_logged_out">You have been logged out. Please login again to continue using VidNet.</string>
+    <string name="requesting_otp">Requesting OTP</string>
+    <string name="invalid_phonenumber">Invalid Phone number</string>
+    <string name="otp_sending_failed">OTP sending failed. Please Try again</string>
+    <string name="request_otp">Request OTP</string>
+    <string name="enter_otp">Enter OTP</string>
+    <string name="resend_otp">Resend OTP</string>
+    <string name="otp_sent">We have sent an OTP to %s</string>
+    <string name="resending_otp">resending OTP</string>
+    <string name="login_failed">Login failed. Please try again</string>
+    <string name="enter_valid_otp">Enter Valid OTP</string>
+    <string name="required">Required</string>
+    <string name="validating_otp">Validating OTP</string>
+    <string name="validate_otp">Validate OTP</string>
+</resources>
