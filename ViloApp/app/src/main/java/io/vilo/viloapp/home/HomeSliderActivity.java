@@ -1,13 +1,16 @@
 package io.vilo.viloapp.home;
 
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import io.vilo.viloapp.R;
 
@@ -24,6 +27,8 @@ public class HomeSliderActivity extends FragmentActivity {
      */
     private ViewPager mPager;
 
+    private PagerTitleStrip mPagerTitle;
+
     /**
      * The pager adapter, which provides the pages to the view pager widget.
      */
@@ -35,9 +40,24 @@ public class HomeSliderActivity extends FragmentActivity {
         setContentView(R.layout.activity_home);
 
         // Instantiate a ViewPager and a PagerAdapter.
-        mPager = (ViewPager) findViewById(R.id.pager);
+        mPager = (ViewPager) findViewById(R.id.viewPager);
         mPagerAdapter = new HomeSliderAdapter(getSupportFragmentManager());
         mPager.setAdapter(mPagerAdapter);
+
+        mPagerTitle = (PagerTitleStrip)findViewById(R.id.viewPagerTitleStrip);
+
+        Typeface font = Typeface.createFromAsset(this.getAssets(), "fonts/Abel-Regular.ttf");
+        for (int counter = 0 ; counter<mPagerTitle.getChildCount(); counter++) {
+
+            if (mPagerTitle.getChildAt(counter) instanceof TextView) {
+                ((TextView)mPagerTitle.getChildAt(counter)).setTypeface(font);
+                ((TextView)mPagerTitle.getChildAt(counter)).setTextSize(20);
+                ((TextView)mPagerTitle.getChildAt(counter)).setTypeface(null, Typeface.BOLD);
+            }
+
+        }
+
+
 //        mPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
 //            @Override
 //            public void onPageSelected(int position) {
