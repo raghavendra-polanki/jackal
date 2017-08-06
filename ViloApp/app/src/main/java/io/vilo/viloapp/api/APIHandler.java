@@ -4,7 +4,11 @@ package io.vilo.viloapp.api;
 import io.vilo.viloapp.model.User;
 import io.vilo.viloapp.model.VideoModel;
 import io.vilo.viloapp.model.apiRequest.AuthenticateOtpRequest;
+import io.vilo.viloapp.model.apiRequest.GetEngineFeedRequest;
+import io.vilo.viloapp.model.apiRequest.GetSocialFeedRequest;
 import io.vilo.viloapp.model.apiRequest.RegisterAppRequest;
+import io.vilo.viloapp.model.apiResponse.GetEngineFeedResponse;
+import io.vilo.viloapp.model.apiResponse.GetSocialFeedResponse;
 import io.vilo.viloapp.model.apiResponse.RegisterAppResponse;
 
 import java.util.List;
@@ -26,5 +30,11 @@ public interface APIHandler {
 
     @GET("/videos")
     void getVideoList(@Query("mid") String param1, Callback<List<VideoModel>> response);
+
+    @POST("/feeds/engine")
+    void getEngineFeed(@Body GetEngineFeedRequest request, Callback<GetEngineFeedResponse> response);
+
+    @POST("/feeds/social")
+    void getSocialFeed(@Body GetSocialFeedRequest request, Callback<GetSocialFeedResponse> response);
 
 }

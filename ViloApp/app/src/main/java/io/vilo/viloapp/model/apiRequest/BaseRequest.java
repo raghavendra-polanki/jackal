@@ -22,6 +22,6 @@ public class BaseRequest {
     private int versionCode = ViloApplication.getInstance().getVersionCode();
 
     public BaseRequest() {
-        idToken = LocalStorage.getInstance().getUser().getIdToken();
+        idToken = "fn87921b3jfd8921b34jhvuyf8923";//LocalStorage.getInstance().getUser().getIdToken();
     }
 }

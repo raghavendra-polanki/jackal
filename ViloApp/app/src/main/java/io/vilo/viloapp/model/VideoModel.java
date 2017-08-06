@@ -14,37 +14,48 @@ import lombok.Setter;
 
 public  class VideoModel implements Serializable {
 
+    public VideoModel(){
+       int i = 0;
+    }
+
     @Getter
     @Setter
-    @SerializedName("videoid")
-    private String videoid;
+    @SerializedName("id")
+    private String videoId;
+
+    @Getter
+    @Setter
+    @SerializedName("is_active")
+    private boolean isActive;
+
+    @Getter
+    @Setter
+    @SerializedName("urls")
+    private List<VideoUrl> urls;
 
     @Getter
     @Setter
     @SerializedName("title")
-    private String title;
+    private VideoTitle title;
 
     @Getter @Setter
-    @SerializedName("description")
-    private String description;
+    @SerializedName("desc")
+    private VideoDescription description;
+
 
     @Getter @Setter
-    @SerializedName("age")
-    private int age;
+    @SerializedName("lang")
+    private List<String> language;
 
     @Getter @Setter
-    @SerializedName("language")
-    private String language;
+    @SerializedName("likes")
+    private int likes;
 
     @Getter @Setter
-    @SerializedName("duration")
-    private int duration;
+    @SerializedName("rating")
+    private String rating;
 
 //    @Getter @Setter
-//    @SerializedName("popularity")
-//    private String popularity;
-
-    @Getter @Setter
-    @SerializedName("category")
-    private List<String> category;
+//    @SerializedName("category")
+//    private List<String> category;
 }

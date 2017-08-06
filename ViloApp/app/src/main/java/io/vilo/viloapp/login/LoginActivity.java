@@ -72,7 +72,7 @@ public class LoginActivity extends BaseActivity {
                 return;
             }
             hideProgress();
-            if(registerAppResponse.getStatus() == 1) {
+            if(registerAppResponse.getStatus() == "OK") {
                 LocalStorage.getInstance(LoginActivity.this).setIsNewUser(registerAppResponse.isNew());
 
                 Intent intent = new Intent(LoginActivity.this, OtpActivity.class);

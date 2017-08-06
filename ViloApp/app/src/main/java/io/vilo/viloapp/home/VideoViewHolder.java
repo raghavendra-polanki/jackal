@@ -12,10 +12,13 @@ import com.google.android.youtube.player.YouTubeThumbnailLoader;
 import com.google.android.youtube.player.YouTubeThumbnailView;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import io.vilo.viloapp.model.VideoTitle;
+import io.vilo.viloapp.model.VideoUrl;
 
 /**
  * Created by raghavendra on 26/05/17.
@@ -47,7 +50,9 @@ public class VideoViewHolder extends RecyclerView.ViewHolder{
 
         //if(view == null){
             thumbnailView.setTag(R.id.key_asset, videoModel);
-            thumbnailView.setTag(videoModel.getVideoid());
+            List<VideoUrl> videoUrls = videoModel.getUrls();
+            String url = videoUrls.get(0).getUrl();
+            thumbnailView.setTag(url);
             thumbnailView.setOnClickListener(onClickListener);
             thumbnailView.initialize(DeveloperKey.DEVELOPER_KEY, m_thumbnailListener);
 
@@ -66,7 +71,8 @@ public class VideoViewHolder extends RecyclerView.ViewHolder{
 //            }
 //        }
 
-        textView.setText(videoModel.getTitle());
+        VideoTitle  title = videoModel.getTitle();
+        textView.setText(title.getEnglish());
 
     }
 

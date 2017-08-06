@@ -1,14 +1,21 @@
 package io.vilo.viloapp;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import android.view.View;
 
+import io.vilo.viloapp.api.BaseCallback;
+import io.vilo.viloapp.api.RestError;
 import io.vilo.viloapp.model.VideoModel;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import io.vilo.viloapp.model.VideoTitle;
+import io.vilo.viloapp.model.VideoUrl;
+import io.vilo.viloapp.model.apiRequest.GetEngineFeedRequest;
+import io.vilo.viloapp.model.apiRequest.GetSocialFeedRequest;
+import io.vilo.viloapp.model.apiResponse.GetEngineFeedResponse;
+import io.vilo.viloapp.model.apiResponse.GetSocialFeedResponse;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -34,31 +41,36 @@ public class FeedManager {
     }
 
     public void initializeEngineFeed(){
-//        ViloApplication.getInstance().getApiHandler().getVideoList("",
-//                new Callback<List<VideoModel>>() {
-//                    @Override
-//                    public void success(List<VideoModel> videos, Response response) {
-//                        mEngineFeed = videos;
-//                        Collections.reverse(mEngineFeed);
-//                        if(mEngineFeedListner != null){
-//                            mEngineFeedListner.onFeedRefreshed(true);
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void failure(RetrofitError error) {
-//                        if(mEngineFeedListner != null){
-//                            mEngineFeedListner.onFeedRefreshed(true);
-//                        }
-//                    }
-//                });
 
-        List<VideoModel> videos = this.getVideos();
+        GetEngineFeedRequest request = new GetEngineFeedRequest();
+        request.setUserId("17072100132");
 
-        mEngineFeed = videos;
-        Collections.reverse(mEngineFeed);
+        ViloApplication.getInstance().getApiHandler().getEngineFeed(request,new GetEngineFeedCallback());
+
+    }
+
+    private void onGetEngineFeedResponse(GetEngineFeedResponse getEngineFeedResponse) {
+
+        mEngineFeed = getEngineFeedResponse.getVideoList();
+
         if(mEngineFeedListner != null){
             mEngineFeedListner.onFeedRefreshed(true);
+        }
+    }
+
+    private class GetEngineFeedCallback extends BaseCallback<GetEngineFeedResponse> {
+        @Override
+        public void failure(RestError restError) {
+
+            if(mEngineFeedListner != null){
+                mEngineFeedListner.onFeedRefreshed(true);
+            }
+        }
+
+        @Override
+        public void success(GetEngineFeedResponse getEngineFeedResponse, Response response) {
+
+            onGetEngineFeedResponse(getEngineFeedResponse);
         }
     }
 
@@ -81,32 +93,37 @@ public class FeedManager {
     }
 
     public void initializeSocialFeed(){
-//        ViloApplication.getInstance().getApiHandler().getVideoList("",
-//                new Callback<List<VideoModel>>() {
-//                    @Override
-//                    public void success(List<VideoModel> videos, Response response) {
-//                        mSocialFeed = videos;
-//                        if(mSocialFeedListner != null){
-//                            mSocialFeedListner.onFeedRefreshed(true);
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void failure(RetrofitError error) {
-//                        if(mSocialFeedListner != null){
-//                            mSocialFeedListner.onFeedRefreshed(false);
-//                        }
-//                    }
-//                });
+        GetSocialFeedRequest request = new GetSocialFeedRequest();
+        request.setUserId("17072100132");
 
-        List<VideoModel> videos = this.getVideos();
+        ViloApplication.getInstance().getApiHandler().getSocialFeed(request,new GetSocialFeedCallback());
 
-        mSocialFeed = videos;
+    }
+
+    private void onGetSocialFeedResponse(GetSocialFeedResponse getSocialFeedResponse) {
+
+        mSocialFeed = getSocialFeedResponse.getVideoList();
+
         if(mSocialFeedListner != null){
             mSocialFeedListner.onFeedRefreshed(true);
         }
     }
 
+    private class GetSocialFeedCallback extends BaseCallback<GetSocialFeedResponse> {
+        @Override
+        public void failure(RestError restError) {
+
+            if(mSocialFeedListner != null){
+                mSocialFeedListner.onFeedRefreshed(true);
+            }
+        }
+
+        @Override
+        public void success(GetSocialFeedResponse getSocialFeedResponse, Response response) {
+
+            onGetSocialFeedResponse(getSocialFeedResponse);
+        }
+    }
     public VideoModel getSocialFeed(int position){
 
         return mSocialFeed.get(position);
@@ -116,37 +133,4 @@ public class FeedManager {
         return mSocialFeed != null ? mSocialFeed.size() : 0;
     }
 
-    private ArrayList<VideoModel> getVideos(){
-//        JSONObject videoModel = new JSONObject();
-//        try {
-//            videoModel.put("id", "3");
-//            videoModel.put("title", "Try not laughing - Pranks");
-//            videoModel.put("description", "Try not to laugh while watching this funniest video of chinese funny pranks. This video is really hilarious and impossible to not laugh");
-//            videoModel.put("videoid", "J73lp3etxE");
-//            videoModel.put("age", 18);
-//            videoModel.put("language", "language");
-//            videoModel.put("duration", 10);
-//            videoModel.put("source_site", "youtube.com");
-//            videoModel.put("updated_at", "2017-05-24T05:37:39.318Z");
-//            videoModel.put("category", "funny");
-//        } catch (JSONException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
-
-        ArrayList<VideoModel> videos = new ArrayList<VideoModel>();
-
-        VideoModel video = new VideoModel();
-        video.setVideoid("A_UEdAZ9hU0");
-        video.setTitle("Try not laughing - Pranks");
-
-        videos.add(video);
-        videos.add(video);
-        videos.add(video);
-        videos.add(video);
-
-        return videos;
-
-
-    }
 }

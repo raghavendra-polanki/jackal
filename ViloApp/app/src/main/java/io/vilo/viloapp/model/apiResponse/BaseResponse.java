@@ -13,8 +13,8 @@ public class BaseResponse {
 
     @Getter
     @Setter
-    @SerializedName("sts")
-    int status;
+    @SerializedName("status")
+    String status;
 
     @Getter
     @Setter

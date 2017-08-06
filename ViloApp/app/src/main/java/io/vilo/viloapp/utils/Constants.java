@@ -5,7 +5,7 @@ public class Constants {
     //public static final String BASE_URL = "http://ec2-52-5-192-231.compute-1.amazonaws.com/v0";
 
 
-    public static final String BASE_URL = "http://139.59.56.95:3000";//"http://api.3dphy.com/v1";;
+    public static final String BASE_URL = "http://api.vilo.io/v1";//"http://api.3dphy.com/v1";;
     public static final String PHONE_NUMBER = "phone_number";
     public static final int RV_CACHE_COUNT = 10;
     public static final String BROADCAST_LOGOUT = "io.vilo.viloapp.LOGOUT";

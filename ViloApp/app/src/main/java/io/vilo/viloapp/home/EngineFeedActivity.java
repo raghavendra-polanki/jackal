@@ -19,6 +19,7 @@ import io.vilo.viloapp.R;
 import io.vilo.viloapp.ViloApplication;
 import io.vilo.viloapp.VideoPlayerFragment;
 import io.vilo.viloapp.model.VideoModel;
+import io.vilo.viloapp.model.VideoUrl;
 import io.vilo.viloapp.utils.NetworkUtils;
 import com.google.android.youtube.player.YouTubeApiServiceUtil;
 import com.google.android.youtube.player.YouTubeInitializationResult;
@@ -220,9 +221,10 @@ public class EngineFeedActivity extends BaseActivity implements
     @Override
     public void onVideoClicked(VideoModel videoModel) {
 
-        String videoId = videoModel.getVideoid();
+        List<VideoUrl> videoUrls = videoModel.getUrls();
+        String url = videoUrls.get(0).getUrl();
 
-        mVideoPlayerFragment.setVideoId(videoId);
+        mVideoPlayerFragment.setVideoId(url);
 
 
         // The videoBox is INVISIBLE if no video was previously selected, so we need to show it now.

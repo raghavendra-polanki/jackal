@@ -166,7 +166,7 @@ public class OtpActivity extends BaseActivity {
         @Override
         public void success(RegisterAppResponse registerAppResponse, Response response) {
             hideProgressDialog();
-            if(registerAppResponse.getStatus() == 0) {
+            if(registerAppResponse.getStatus() != "OK") {
                 Snackbar.make(mOtpEt, R.string.otp_sending_failed, Snackbar.LENGTH_LONG).show();
             }
         }
